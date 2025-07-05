@@ -1,0 +1,41 @@
+package main
+
+import (
+	"CLI_app/processes"
+	"fmt"
+	"os"
+)
+
+func main() {
+	args := os.Args
+
+	if len(args) == 1 || (len(args) == 2 && (args[1] == "--help" || args[1] == "-h")) {
+		PrintHomePage()
+		return
+	}
+
+	if len(args) != 3 {
+		fmt.Println("Usage: go run . <input.txt> <output.txt>")
+		os.Exit(1)
+	}
+
+	inputFile := args[1]
+	outputFile := args[2]
+
+	data, err := os.ReadFile(inputFile)
+	if err != nil {
+		fmt.Printf("Failed to read %s: %v\n", inputFile, err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Processing...")
+	processed := processes.ProcessText(string(data))
+
+	err = os.WriteFile(outputFile, []byte(processed), 0644)
+	if err != nil {
+		fmt.Printf("❌ Failed to write %s: %v\n", outputFile, err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Done✅")
+}
