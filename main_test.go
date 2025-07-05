@@ -134,6 +134,7 @@ func TestProcessText(t *testing.T) {
 		{"rock 'n' roll (up, 3)", "ROCK 'N' ROLL"},
 		{"didn't (rev)", "tndi'd"},
 		{"it's fine (up, 2)", "IT'S FINE"},
+		{"((Hello everyone here, how are you doing?)!)} (up, 7)", "((HELLO EVERYONE HERE, HOW ARE YOU DOING?)!)}"},
 	}
 
 	for _, tt := range tests {
