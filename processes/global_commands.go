@@ -1,7 +1,6 @@
 package processes
 
 import (
-	"regexp"
 	"strings"
 )
 
@@ -40,11 +39,5 @@ func ProcessTextWithGlobalCommand(text string, globalCommand string) string {
 	result := strings.Join(segments, "\n")
 
 	// Apply space normalization and punctuation cleanup
-	result = normalizeSpaces(result)
 	return CleanSpacesAndPunctuation(result)
-}
-
-func normalizeSpaces(text string) string {
-	// Normalize spaces but preserve newlines
-	return regexp.MustCompile(`[^\S\n]+`).ReplaceAllString(text, " ")
 }

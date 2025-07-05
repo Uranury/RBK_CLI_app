@@ -99,10 +99,14 @@ func processSegment(segment string) string {
 	}
 
 	// Normalize spaces but preserve newlines
-	segment = regexp.MustCompile(`[^\S\n]+`).ReplaceAllString(segment, " ")
+	segment = normalizeSpaces(segment)
 
 	// Apply punctuation cleanup
 	return CleanSpacesAndPunctuation(segment)
+}
+
+func normalizeSpaces(text string) string {
+	return regexp.MustCompile(`[^\S\n]+`).ReplaceAllString(text, " ")
 }
 
 func ProcessText(text string) string {

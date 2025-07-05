@@ -135,6 +135,21 @@ func TestProcessText(t *testing.T) {
 		{"didn't (rev)", "tndi'd"},
 		{"it's fine (up, 2)", "IT'S FINE"},
 		{"((Hello everyone here, how are you doing?)!)} (up, 7)", "((HELLO EVERYONE HERE, HOW ARE YOU DOING?)!)}"},
+
+		// Quotes
+		{"he said \"hello\" (cap,3)", "He Said \"Hello\""},
+		{"'hello world' (cap,2)", "'Hello World'"},
+		{"it's 'important' here (cap,3)", "It's 'Important' Here"},
+
+		// Mixed punctuation
+		{"word?! (cap)", "Word?!"},
+		{"really?!?! (up)", "REALLY?!?!"},
+		{"wow... (cap)", "Wow..."},
+		{"end.) (cap)", "End.)"},
+		{"word@domain (cap)", "Word@domain"},
+		{"user@email.com (cap)", "User@email.com"},
+		{"word#tag (cap)", "Word#tag"},
+		{"50% off (cap,2)", "50% Off"},
 	}
 
 	for _, tt := range tests {
