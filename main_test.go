@@ -150,6 +150,13 @@ func TestProcessText(t *testing.T) {
 		{"user@email.com (cap)", "User@email.com"},
 		{"word#tag (cap)", "Word#tag"},
 		{"50% off (cap,2)", "50% Off"},
+
+		// Extra
+		{"well‑known (cap)", "Well‑known"},
+		{"foo_bar (up)", "FOO_BAR"},
+		{"a|b|c (rev)", "c|b|a"},
+		{"path/to/file (low)", "path/to/file"},
+		{"one two\nthree four (cap,2)", "one two\nThree Four"},
 	}
 
 	for _, tt := range tests {

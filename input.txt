@@ -1,1 +1,2 @@
-Okay, now we need to check reverse, nested words in braces {{hello, everyone is here? I'm fine}}!!... 
+0x1a 0XFF (0x2b)
+Hello world! 0xabc.
