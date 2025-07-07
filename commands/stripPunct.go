@@ -8,13 +8,18 @@ func StripPunctuation(word string) (base, punct string) {
 		return "", ""
 	}
 
-	// First check if the entire word is wrapped in parentheses
+	// If word is fully wrapped in parentheses, try to handle inside
 	if len(runes) >= 2 && runes[0] == '(' && runes[len(runes)-1] == ')' {
-		// Extract the content inside parentheses
 		inside := string(runes[1 : len(runes)-1])
-		// Recursively strip punctuation from inside content
 		innerBase, innerPunct := StripPunctuation(inside)
-		return innerBase, "(" + innerPunct + ")"
+
+		// Only wrap again if innerPunct changed the content
+		if innerBase != inside || innerPunct != "" {
+			return innerBase, "(" + innerPunct + ")"
+		} else {
+			// Don't strip punctuation that doesn't need transformation
+			return word, ""
+		}
 	}
 
 	// Handle trailing punctuation
@@ -30,7 +35,6 @@ func StripPunctuation(word string) (base, punct string) {
 		return "", word
 	}
 
-	// Split into main part and trailing punctuation
 	mainPart := string(runes[:lastAlphaNum+1])
 	trailingPunct := string(runes[lastAlphaNum+1:])
 

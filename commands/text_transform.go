@@ -28,9 +28,8 @@ func ApplyTextTransformation(words []string, action string, count int) []string 
 		return words
 	}
 
-	// Don't transform more words than we have
-	wordsToTransform := min(count, len(words))
-	startIndex := len(words) - wordsToTransform
+	wordsToConvert := min(count, len(words))
+	startIndex := len(words) - wordsToConvert
 
 	for i := startIndex; i < len(words); i++ {
 		base, punct := StripPunctuation(words[i])

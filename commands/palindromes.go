@@ -3,10 +3,7 @@ package commands
 import "unicode"
 
 func ReplaceWordToPal(words []string, count int) []string {
-	wordsToConvert := count
-	if wordsToConvert > len(words) {
-		wordsToConvert = len(words)
-	}
+	wordsToConvert := min(count, len(words))
 
 	for i := len(words) - wordsToConvert; i < len(words); i++ {
 		words[i] = replacePalindromeInPlace(words[i])

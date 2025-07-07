@@ -11,7 +11,6 @@ func ConvertLastWordsToDecimal(words []string, base int, count int) []string {
 		return words
 	}
 
-	// Determine how many words to convert (don't exceed available words)
 	wordsToConvert := min(count, len(words))
 
 	// Convert the last 'wordsToConvert' words
@@ -19,7 +18,6 @@ func ConvertLastWordsToDecimal(words []string, base int, count int) []string {
 	for i := startIndex; i < len(words); i++ {
 		originalWord := words[i]
 
-		// Extract the numeric part and surrounding structure
 		numericPart, prefix, suffix := extractNumericPart(originalWord)
 
 		// Handle hex prefixes (0x, 0X) for hex conversion
@@ -57,7 +55,6 @@ func extractNumericPart(word string) (numeric, prefix, suffix string) {
 		return "", "", ""
 	}
 
-	// Find the start of the numeric part (skip opening parentheses)
 	start := 0
 	for start < len(runes) && runes[start] == '(' {
 		start++
@@ -74,7 +71,6 @@ func extractNumericPart(word string) (numeric, prefix, suffix string) {
 		return "", "", word
 	}
 
-	// Extract parts
 	prefix = string(runes[:start])
 	numeric = string(runes[start : end+1])
 	suffix = string(runes[end+1:])

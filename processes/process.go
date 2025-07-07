@@ -39,7 +39,7 @@ func CleanSpacesAndPunctuation(text string) string {
 	reAfterOpen := regexp.MustCompile(`([(\[{])\s+`)
 	text = reAfterOpen.ReplaceAllString(text, "$1")
 
-	// Preserve space before opening quotesa
+	// Preserve space before opening quotes
 	reBeforeQuote := regexp.MustCompile(`(\w)\s+'\s*(\w)`)
 	text = reBeforeQuote.ReplaceAllString(text, "$1 '$2")
 
@@ -94,14 +94,11 @@ func processSegment(segment string) string {
 		words := strings.Fields(beforeCommand)
 		words = ApplyCommand(words, action, count)
 
-		// Reconstruct segment while preserving original spacing structure
 		segment = strings.Join(words, " ") + afterCommand
 	}
 
-	// Normalize spaces but preserve newlines
 	segment = normalizeSpaces(segment)
 
-	// Apply punctuation cleanup
 	return CleanSpacesAndPunctuation(segment)
 }
 
