@@ -42,29 +42,3 @@ func ApplyTextTransformation(words []string, action string, count int) []string 
 	}
 	return words
 }
-
-func transformAlnumInPlace(word string, transform func(string) string) string {
-	runes := []rune(word)
-	var alnums []rune
-
-	// Extract alphanumerics
-	for _, r := range runes {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			alnums = append(alnums, r)
-		}
-	}
-
-	// Apply the transformation
-	transformed := []rune(transform(string(alnums)))
-
-	// Replace the alphanumerics in original rune slice
-	index := 0
-	for i, r := range runes {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			runes[i] = transformed[index]
-			index++
-		}
-	}
-
-	return string(runes)
-}

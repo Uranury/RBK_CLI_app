@@ -1,41 +1,15 @@
 package commands
 
-import "unicode"
-
 func ReverseTheWord(words []string, count int) []string {
-	wordsToConvert := min(count, len(words))
-
-	for i := len(words) - wordsToConvert; i < len(words); i++ {
-		words[i] = reverseAlnumInPlace(words[i])
-	}
-
-	return words
+	return applyToWords(words, count, func(word string) string {
+		return transformAlnumInPlace(word, reverseString)
+	})
 }
 
-func reverseAlnumInPlace(word string) string {
-	runes := []rune(word)
-	var letters []rune
-
-	// Extract alphanumeric runes
-	for _, r := range runes {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			letters = append(letters, r)
-		}
+func reverseString(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
 	}
-
-	// Reverse the letters
-	for i, j := 0, len(letters)-1; i < j; i, j = i+1, j-1 {
-		letters[i], letters[j] = letters[j], letters[i]
-	}
-
-	// Replace the alphanumeric runes in the original rune slice
-	index := 0
-	for i, r := range runes {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			runes[i] = letters[index]
-			index++
-		}
-	}
-
 	return string(runes)
 }
