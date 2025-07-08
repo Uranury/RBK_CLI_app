@@ -12,7 +12,6 @@ func capitalizeWord(s string) string {
 	for i, r := range runes {
 		if unicode.IsLetter(r) {
 			if !foundFirstAlpha {
-				// Capitalize first letter
 				runes[i] = unicode.ToUpper(r)
 				foundFirstAlpha = true
 			} else {
@@ -32,19 +31,40 @@ func ApplyTextTransformation(words []string, action string, count int) []string 
 	startIndex := len(words) - wordsToConvert
 
 	for i := startIndex; i < len(words); i++ {
-		base, punct := StripPunctuation(words[i])
-
 		switch action {
 		case "cap":
-			base = capitalizeWord(base)
+			words[i] = transformAlnumInPlace(words[i], capitalizeWord)
 		case "up":
-			base = strings.ToUpper(base)
+			words[i] = transformAlnumInPlace(words[i], strings.ToUpper)
 		case "low":
-			base = strings.ToLower(base)
+			words[i] = transformAlnumInPlace(words[i], strings.ToLower)
 		}
+	}
+	return words
+}
 
-		words[i] = base + punct
+func transformAlnumInPlace(word string, transform func(string) string) string {
+	runes := []rune(word)
+	var alnums []rune
+
+	// Extract alphanumerics
+	for _, r := range runes {
+		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+			alnums = append(alnums, r)
+		}
 	}
 
-	return words
+	// Apply the transformation
+	transformed := []rune(transform(string(alnums)))
+
+	// Replace the alphanumerics in original rune slice
+	index := 0
+	for i, r := range runes {
+		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+			runes[i] = transformed[index]
+			index++
+		}
+	}
+
+	return string(runes)
 }

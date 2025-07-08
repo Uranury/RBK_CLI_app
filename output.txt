@@ -1,2 +1,2 @@
-26 255 (43)
-Hello world! 2748.
+0X1a 0Xff (0X2b)
+Hello World! 0Xabc.

@@ -157,6 +157,9 @@ func TestProcessText(t *testing.T) {
 		{"a|b|c (rev)", "c|b|a"},
 		{"path/to/file (low)", "path/to/file"},
 		{"one two\nthree four (cap,2)", "one two\nThree Four"},
+		{"((hello,)) (up)", "((HELLO,))"},
+		{"((hello,)) (rev)", "((olleh,))"},
+		{"((101011,)) (bin)", "((43,))"},
 	}
 
 	for _, tt := range tests {
