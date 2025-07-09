@@ -123,7 +123,7 @@ func TestProcessText(t *testing.T) {
 		{"(cap ,   2)", ""},
 		{"abc123, (up)", "ABC123,"},
 		{"word (rev, 1) (cap, 1)", "Drow"},
-		{"  ", " "},
+		{"  ", ""},
 
 		// Grammar check, getting rid of extra spaces
 		{"Hello    World", "Hello World"},

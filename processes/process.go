@@ -71,46 +71,69 @@ func ParseCount(countStr string) int {
 	return count
 }
 
-func processSegment(segment string) string {
+func normalizeSpaces(text string) string {
+	// Only normalize spaces within lines, keep the newlines
+	lines := strings.Split(text, "\n")
+	for i := 0; i < len(lines); i++ {
+		lines[i] = regexp.MustCompile(`[^\S\n]+`).ReplaceAllString(lines[i], " ")
+		lines[i] = strings.TrimSpace(lines[i])
+	}
+	return strings.Join(lines, "\n")
+}
+
+func reconstructWithSpacing(original string, processedWords []string) string {
+	if len(processedWords) == 0 {
+		return original
+	}
+
+	// Create a regex to find word boundaries
+	wordRegex := regexp.MustCompile(`\S+`)
+	wordPositions := wordRegex.FindAllStringIndex(original, -1)
+
+	if len(wordPositions) == 0 {
+		return original
+	}
+
+	result := original
+	wordIndex := len(processedWords) - 1
+
+	// Replace words from right to left to maintain correct positions
+	for i := len(wordPositions) - 1; i >= 0 && wordIndex >= 0; i-- {
+		start := wordPositions[i][0]
+		end := wordPositions[i][1]
+		result = result[:start] + processedWords[wordIndex] + result[end:]
+		wordIndex--
+	}
+
+	return result
+}
+
+func ProcessText(text string) string {
 	commandRegex := regexp.MustCompile(`\((up|low|cap|hex|bin|rev|len|pal)(?:\s*,\s*([^)]+))?\)`)
 
 	for {
-		matches := commandRegex.FindStringSubmatch(segment)
+		matches := commandRegex.FindStringSubmatch(text)
 		if matches == nil {
 			break
 		}
 
 		action := matches[1]
 		count := ParseCount(matches[2])
-		commandPos := commandRegex.FindStringIndex(segment)
+		commandPos := commandRegex.FindStringIndex(text)
 		if commandPos == nil {
 			break
 		}
 
-		beforeCommand := segment[:commandPos[0]]
-		afterCommand := segment[commandPos[1]:]
+		beforeCommand := text[:commandPos[0]]
+		afterCommand := text[commandPos[1]:]
 
-		// Preserve existing newlines within the segment
 		words := strings.Fields(beforeCommand)
 		words = ApplyCommand(words, action, count)
 
-		segment = strings.Join(words, " ") + afterCommand
+		processedBefore := reconstructWithSpacing(beforeCommand, words)
+		text = processedBefore + afterCommand
 	}
 
-	segment = normalizeSpaces(segment)
-
-	return CleanSpacesAndPunctuation(segment)
-}
-
-func normalizeSpaces(text string) string {
-	return regexp.MustCompile(`[^\S\n]+`).ReplaceAllString(text, " ")
-}
-
-func ProcessText(text string) string {
-	// Preserve newlines by splitting and processing segments
-	segments := strings.Split(text, "\n")
-	for i := 0; i < len(segments); i++ {
-		segments[i] = processSegment(segments[i])
-	}
-	return strings.Join(segments, "\n")
+	text = normalizeSpaces(text)
+	return CleanSpacesAndPunctuation(text)
 }

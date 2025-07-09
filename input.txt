@@ -1,2 +1,2 @@
-0x1a 0XFF (0x2b)
-Hello world! 0xabc.
+Checking how commands affect words that are on a different line
+(cap, 5) Some text(cap,2)

@@ -1,2 +1,2 @@
-0X1a 0Xff (0X2b)
-Hello World! 0Xabc.
+Checking how commands affect words that Are On A Different Line
+Some Text
